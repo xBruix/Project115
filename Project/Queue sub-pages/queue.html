@@ -1,0 +1,171 @@
+<!--Bruce Fernandes 666550777-->
+<!DOCTYPE html>
+<html>
+    <meta charset='utf-8'>
+    <title>Stack.hpp</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/sub-page css/Code.css">
+    <script src="js/modernizr.js"></script>
+    <body>
+        <br>
+        <p class="center">This is the .hpp file as given by my professor, Bette Bultena</p>
+        <br> 
+        <div class="space">
+            #ifndef QUEUE_H<br>
+            #define QUEUE_H<br>
+            <br>
+            #include &ltiostream&gt<br>
+            using std::string;<br>
+            using std::ostream;<br>
+            <br>
+            /**<br>
+            * QueueException is a very simple exception class that is thrown <br>
+            * to indicate a problem specific to a Queue.<br>
+            * The member functions are inline, therefore do not need to be included <br>
+            * in the implementation files.<br>
+            */<br>
+            class QueueException {<br>
+            private:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;string location;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;string msg;<br>
+                <br>
+            public:<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;* Creates a QueueException object.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;* @param whereThrown the origin of the member function that threw the exception.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;* @param message nn indication of what the problem was that triggered the exception.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;QueueException(const string& whereThrown, const string& message) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;location = whereThrown;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg = message;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/** <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Provides a string version of the Exception object.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @return An informative message.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;string to_string() const {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "*** QueueException in "+ location + ": "+msg;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Allows for a direct stream of the error message using the &lt&lt operator.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @param out the ostream object on the left side of the &lt&lt operator.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @param se the exception to pass into the output stream.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @return the loaded ostream object.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;friend ostream& operator&lt&lt (ostream& out, const QueueException& qe) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out &lt&lt qe.to_string();<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return out;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                <br>
+            }; // end of QueueException class description<br>
+            <br>
+            /**<br>
+            * Class Queue is a basic queue ADT, a first-in-first-out sequence.<br>
+            * The type of elements is determined by the user, the description identifies<br>
+            * the type with a placeholder 'E' (for element).<br>
+            */<br>
+            <br>
+            template &lttypename E&gt<br>
+            class Queue {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* In the implementation file, the basic structure will be an expandible circular<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*array or a singly-linked list.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+            //private:<br>
+            // NOTE TO STUDENT:  When testing, this private can be changed to public<br>
+            // to allow for the helper to_string function in the cpp file to print out the contents<br>
+            // of the queue.<br>
+            // Just swap the comment line: //<br>
+            <br>
+            public:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;// for the array version only<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;static const int INIT_CAPACITY = 3; // small enough to force at least one expansion.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;int capacity; // the actual size of the array (not necessarily the same as the number of elements)<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/** the array to hold the elements */<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;E * list;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/** the index position of the 'next served' element in the queue.*/ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;int front; <br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/** the index position of the first empty space available for an insert into the queue.*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;int back;<br>
+                <br>
+                // for the linked list version only<br>
+                class Node{<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;public:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E element;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* next;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// both a regular constructor and one with a default where next is pointing to a nullprt<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// useful for when inserting into the last position<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;* Creates a new node.<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;* @param element the element that enters the linked list.<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;* @param next the pointer to the next node in the list (nullptr by default).<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Node( const E& element, Node* next = nullptr) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this->element = element;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this->next = next;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    }; // end Node definition<br>
+                <br>
+                /** the position of the first element in the linked list. */<br>
+                Node* first;<br>
+                <br>
+                /** the position of the last element in the linked list. */<br>
+                Node* last;<br>
+                <br>
+            public:<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;* Creates an empty queue.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Queue();<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Copy constructor disabled for now. <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Queue(const Queue& copy) = delete;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Cleans up any memory that was allocated to the queue.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;~Queue();<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @return true if the queue is currently empty.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;bool is_empty() const;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Looks at, but does not remove the next element that will be <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*removed from the front of the queue.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @return The element at the front of the queue.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @throw QueueException if the queue is empty.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;E peek() const;;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Inserts an element to the back of the queue.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @param element the new addition to the queue.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;void enqueue(E & element);<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* Removes the element from the front of the queue.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @return the element that was removed.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;* @throw QueueException if the queue is empty.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;*/<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;E dequeue();<br>
+            };<br>
+            <br>
+            #endif<br>
+            <br>
+            <a href="../Queue/queue.html"> Back to Previous page </a>
+        </div>
+    </body>    
+</html>

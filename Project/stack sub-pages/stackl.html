@@ -1,0 +1,95 @@
+<!--Bruce Fernandes 666550777-->
+<!DOCTYPE html>
+<html>
+    <meta charset='utf-8'>
+    <title>StackL.cpp</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/sub-page css/Code.css">
+    
+    <body>
+        <br>
+        <p class="center">This is the source code for the Linked List version of Stack ADT</p>
+        <br> 
+        <div class="space">
+            //<br>
+            // Created by Bruce on 2024-02-14.<br>
+            //<br>
+            <br>
+            #include "Stack.hpp"<br>
+            using std::string;<br>
+            using std::cout;<br>
+            using std::endl;<br>
+            <br>
+            <br>
+            template &lttypename E&gt<br>
+            Stack&ltE&gt::Stack() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;list=nullptr;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;num_elements=0;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;first=nullptr;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;last=nullptr;<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            Stack&ltE&gt::~Stack() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;while(first!=nullptr){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node *temp=first;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first=temp->next;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delete temp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            bool Stack&ltE&gt::is_empty() const {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return first== nullptr;<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            E Stack&ltE&gt::top() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw StackException("Top","Stack is empty Bozo");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return last->element;<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            void Stack&ltE&gt::push(E & item) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Node *ptr = new Node(item, nullptr);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first=ptr;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last=ptr;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first->next=ptr;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first = ptr;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+
+            template &lttypename E&gt<br>
+            E Stack&ltE&gt::pop() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw StackException("pop","Stack is empty Bozo");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Node *temp=first; //creates a temporary pointer for fun<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;// (definitely for fun and not because it's actually needed)<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;first=temp->next; //makes first point to the next node in the list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;E q=temp->element; //retrieves the element from the node to be deleted<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;delete temp; //deletes the node<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(first!=nullptr) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first->next = nullptr; //setting first back to null<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if(first==nullptr){<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last= nullptr;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return q; //returns the element<br>
+            }<br>
+            <br>
+            template class Stack&ltstring&gt ;<br>
+            template class Stack&ltint&gt ;<br>
+            <br>
+                        <br>
+                        <a href="../stacks/Stacks.html"> Back to Previous page </a>
+            </div>
+
+    </body>
+</html>

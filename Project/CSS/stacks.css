@@ -1,0 +1,38 @@
+body{
+    color: #000;;
+    text-align: center;
+    font-size: 140%;
+    font-family: monospace;
+    background-image: url("../img/gradient.jpg");
+}
+
+/* Navbar */
+.navbar{
+    z-index: 1;
+    background-color: #7E2222;
+    border-radius: 30px;
+    position: sticky;
+    top: 20px;
+}
+.navbar ul{
+    overflow:auto;
+}
+.navbar li{
+    float: left;
+    list-style: none;
+    margin: 15px 70px;
+}
+.navbar li a{
+    padding: 3px 3px;
+    text-decoration: none;
+    color:#937070 ;
+    font-size:large;
+}
+.navbar li a:hover{
+    color: #c63737;
+}
+.navbar li a:active {
+    color: #c488b8;
+}
+/* End of Navbar CSS */
+

@@ -1,0 +1,62 @@
+body{
+    color: #5A3C3C;
+    margin: auto 20px;
+    background-image: url("../img/background.avif");
+    background-repeat: repeat;
+}
+
+/*text alterations */
+.header{
+    font-size: xx-large;
+    font-weight: bold;
+}
+p{
+    font-size: large;
+}
+.left{
+    text-align: left;
+}
+.right{
+    text-align: right;
+}
+
+/* Start of Top Navbar CSS */
+.navbar{
+    z-index: 1;
+    background-color: #7E2222;
+    border-radius: 30px;
+    position: sticky;
+    top: 20px;
+}
+.navbar ul{
+    overflow:auto;
+}
+.navbar li{
+    float: left;
+    list-style: none;
+    margin: 15px 100px;
+}
+.navbar li a{
+    padding: 3px 4px;
+    text-decoration: none;
+    color:#937070 ;
+}
+.navbar li a:hover{
+    color: #c63737;
+}
+.navbar li a:active {
+    color: #c488b8;
+}
+/* End of Top Navbar CSS */
+
+/* Pictures */
+.box{
+    position: absolute;
+    top: 170px;
+    left: 1000px;
+}
+.box2{
+    position: absolute;
+    top: 725px;
+    left: 20px;
+}

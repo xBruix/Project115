@@ -1,0 +1,102 @@
+<!--Bruce Fernandes 666550777-->
+<!DOCTYPE html>
+<html>
+    <meta charset='utf-8'>
+    <title>Stack.hpp</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/sub-page css/Code.css">
+    <body>
+        <br>
+        <p class="center">This is the source code for the vector version of Stack ADT</p>
+        <br> 
+        <div class="space">
+            //<br>
+            // Created by Bruce on 2024-02-27.<br>
+            //<br>
+            #include "Queue.hpp"<br>
+            #include &ltiostream&gt<br>
+            #include &ltostream&gt<br>
+            #include &ltsstream&gt<br>
+            using std::string;<br>
+            using std::ostringstream;<br>
+            using std::ostream;<br>
+            using std::cout;<br>
+            using std::endl;<br>
+            <br>
+            // This is the basic template for either the circular vector version (stored in QueueV.cpp)<br>
+            // or the singly linked list  version (stored in QueueL.cpp)<br>
+            // The template information is provided.<br>
+            // The program will not compile as is; there isn't enough information about the element types yet.<br>
+            // This is provided to help you set up the templates the way C++ requires so that 'E' is a substitute for <br>
+            // whatever data type the elements will be.<br>
+
+            template &lttypename E&gt<br>
+            Queue&ltE&gt::Queue() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;capacity=INIT_CAPACITY; //gives us the capacity of the list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;list=new E[capacity]; //creates the list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;front=-1;//initializing front as -1 to ensure the difference between empty and full<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;back=0;//initializing back as 0 since the list is empty<br>
+            }<br>
+
+            template &lttypename E&gt<br>
+            Queue&ltE&gt::~Queue() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;delete[] list; //destroys the list once used<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            bool Queue&ltE&gt::is_empty() const {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return front==-1; //returns true when front is -1 and false otherwise<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            E Queue&ltE&gt::peek() const {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw QueueException("peek","you cannot peek at something that dont exist");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;} //throws an exception if the queue is empty since you cannot peek at nothing<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return list[front];<br>
+            } //returns the first element of the queue<br>
+            <br>
+            template &lttypename E&gt<br>
+            void Queue&ltE&gt::enqueue(E & item) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(front==-1){ //checks if the queue is empty so that front becomes 0<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front++;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;else if(front==back){<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E* templist=new E[(capacity*2)]; //creates a new list with double the size to make space for new elements<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i < capacity; i++) {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;templist[i] = dequeue();<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front=0;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;back=capacity;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;capacity=capacity*2; //doubles capacity<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delete list; //deletes the old list<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list=templist; //creates new list<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delete templist; //Deletes the templist I already used<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;list[back]=item; //adds the item to the list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;back=(back+1)%capacity; //new value of back<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            E Queue&ltE&gt::dequeue() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw QueueException("enqueue","It's empty, why you do dis. How you gon remove sommein from an empty queue");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;} //throws an exception since you cannot remove something from an empty box1<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;E temp;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;temp=list[front];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;front=(front+1)%capacity;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;if(front==back){<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;front=-1;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;back=0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return temp;<br>
+            }<br>
+            <br>
+            template class Queue&ltstring&gt ;<br>
+            template class Queue&ltint&gt ;<br>
+            <br>
+            <a href="../Queue/queue.html"> Back to Previous page </a>
+        </div>
+    </body>    
+</html>

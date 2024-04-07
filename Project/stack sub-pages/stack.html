@@ -1,0 +1,91 @@
+<!--Bruce Fernandes 666550777-->
+<!DOCTYPE html>
+<html>
+    <meta charset='utf-8'>
+    <title>Stack.hpp</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/sub-page css/Code.css">
+    <body>
+        <br>
+        <p class="center">This is the .hpp file as given by my professor, Bette Bultena</p>
+        <br> 
+        <div class="space">
+        #ifndef STACK_H<br>
+        #define STACK_H<br>
+        <br>
+        #include &ltiostream&gt<br>
+        using std::string;<br>
+        using std::ostream;<br>
+        <br>
+        class StackException {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;private:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;string location;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;string msg;<br>
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;public:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;StackException(const string& whereThrown, const string & message) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;location = whereThrown;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg = message;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;string to_string() const {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return "*** StackException in "+<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;location + ": "+msg;<br>
+                    }<br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;friend ostream& operator<< (ostream & out, const StackException & se) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out << se.to_string();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return out;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        };<br>
+        <br>
+        <br>
+        template &lttypename E&gt<br>
+        class Stack {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// for the array version only <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static const int INIT_CAPACITY = 3; // array version only <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int capacity; <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E * list;<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;// for the linked list version only<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;class Node {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public: <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E element;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node* next;<br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Node(const E & element, Node * next) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this->element = element;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this->next = next;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    };<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Node * first;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Node * last;<br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;// for either version<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;int num_elements; // either version<br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;public:<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack();<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// in this assignment, no copies of the stack are allowed.<br>
+                Stack(const Stack & copy) = delete;<br>
+                <br>
+                ~Stack();<br>
+                <br>
+                bool is_empty() const;<br>
+                <br>
+                E top();<br>
+                <br>
+                void push(E & element);<br>
+                <br>
+                E pop();<br>
+                <br>
+            };<br>
+            <br>
+        #endif<br>
+        <a href="../stacks/Stacks.html"> Back to Previous page </a>
+    </div>
+    </body>
+</html>

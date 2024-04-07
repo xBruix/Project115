@@ -1,0 +1,103 @@
+<!--Bruce Fernandes 666550777-->
+<!DOCTYPE html>
+<html>
+    <meta charset='utf-8'>
+    <title>Stack.hpp</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/sub-page css/Code.css">
+    <body>
+        <br>
+        <p class="center">This is the source code for the Linked List version of Stack ADT</p>
+        <br> 
+        <div class="space">
+            //<br>
+            // Created by Bruce on 2024-02-27.<br>
+            //<br>
+            #include "Queue.hpp"<br>
+            #include &ltiostream&gt<br>
+            #include &ltostream&gt<br>
+            #include &ltsstream&gt<br>
+                using std::string;<br>
+                using std::ostringstream;<br>
+                using std::ostream;<br>
+                using std::cout;<br>
+                using std::endl;<br>
+                <br>
+            // This is the basic template for either the circular vector version (stored in QueueV.cpp)<br>
+            // or the singly linked list  version (stored in QueueL.cpp)<br>
+            // The template information is provided.<br>
+            // The program will not compile as is; there isn't enough informaton about the element types yet.<br>
+            // This is provided to help you set up the templates the way C++ requires so that 'E' is a substitute for <br>
+            // whatever data type the elements will be.<br>
+            <br>
+            template &lttypename E&gt<br>
+            Queue&ltE&gt::Queue() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;list=nullptr; //creates list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;first=nullptr; //first will point to null at first<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;last=nullptr; //last will also point to null at first<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            Queue&ltE&gt::~Queue() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Node *ptr=first; //extra pointer needed to delete the list<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;while(ptr!=last) { //looping to delete the list<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node *temp = ptr; //makes ptr point to the current node<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ptr=ptr->next; // makes ptr point to the next node<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delete temp; //deletes the current node<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;delete last; // deletes the last node<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            bool Queue&ltE&gt::is_empty() const {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return first==nullptr; //Checks if first points to null<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            E Queue&ltE&gt::peek() const {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw QueueException("peek","you cannot peek at something that dont exist");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;} //throws an exception since you cannot peek at something that doesn't exist<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;return first->element; // returns the first element<br>
+            }<br>
+            <br>
+            template &lttypename E&gt<br>
+            void Queue&ltE&gt::enqueue(E & item) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Node *ptr = new Node(item, nullptr); //creates new node and pointer to it<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;// Case 1: List is empty<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if (is_empty()) { //makes both first and last point to the same thing since there's only 1 thing there<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first = ptr;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last = ptr;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Case 2: List is not empty<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last->next=ptr; //now the current node points to the new node and last also does that<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last = ptr; //points to nothin<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }<br>
+            template &lttypename E&gt<br>
+            E Queue&ltE&gt::dequeue() {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw QueueException("dequeue","Cannot Dequeue an empty queue");<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}// you cannot remove something from an empty box<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Node* temp =first;//temp is used so we do not actually lose the first node before deleting it<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;first=temp->next; // makes first point to the next node<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;delete temp; // deletes the first node since we have a new first node now<br>
+            }<br>
+            <br>
+            /*<br>
+            * This is a required list of data types that can be elements.<br>
+            * It can be as long as necessary, but must have at least one <br>
+            *	actual data type listed.<br>
+            * If you want to add other data types as possible elements,<br>
+            * for your stack objects,<br>
+            * make sure they are added to this list.<br>
+            * If you haven't had enough of BingoBall objects, you can add that, too.<br>
+            */<br>
+            template class Queue&ltstring&gt ;<br>
+            template class Queue&ltint&gt ;<br>
+            <br>
+            <a href="../Queue/queue.html"> Back to Previous page </a>
+        </div>
+    </body>    
+</html>

@@ -1,0 +1,81 @@
+<!--Bruce Fernandes 666550777-->
+<!DOCTYPE html>
+<html>
+    <meta charset='utf-8'>
+    <title>StackV.cpp</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/sub-page css/Code.css">
+    
+    <body>
+        <br>
+        <p class="center">This is the source code for the vector version of Stack ADT</p>
+        <br>
+        <div class="space">
+        //<br>
+        // Created by Bruce on 2024-02-14.<br>
+        //<br>
+        <br>
+        #include "Stack.hpp"<br>
+        using std::string;<br>
+        using std::cout;<br>
+        using std::endl;<br>
+        <br>
+        // The Array version of the ADT Stack with all elements push(), pop(), is_empty()<br>
+        <br>
+        template &lttypename E&gt<br>
+        Stack&ltE&gt::Stack() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;capacity=INIT_CAPACITY;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;num_elements=0;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;list=new E[capacity];<br>
+        } //creating all the required variables and things for the stack<br>
+        <br>
+        template &lttypename E&gt<br>
+        Stack&ltE&gt::~Stack() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;delete[] list;<br>
+        } //destroys the list<br>
+        <br>
+        template &lttypename E&gt<br>
+        bool Stack&ltE&gt::is_empty() const {   //This will check if it is empty<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;return num_elements==0;//Returns true if empty and false if not<br>
+        }<br>
+        <br>
+        template &lttypename E&gt<br>
+        E Stack&ltE&gt::top() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw StackException("Top","Stack is empty Bozo");<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} //Throws exception if Stack is empty since we cannot look at something in an empty box<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return list[num_elements-1];<br>
+        }//shows the top element of the stack<br>
+        <br>
+        template &lttypename E&gt<br>
+        void Stack&ltE&gt::push(E & item) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if(num_elements==capacity){<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;capacity=capacity*2;            //doubles the size of the array if full because we like using a lot of space<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E* templist=new E[capacity];<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i=0;i<num_elements;i++){<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;templist[i]=list[i];<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;delete list;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;list=templist;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;list[num_elements++]=item; //adding the element to the array because thats kinda the point idk<br>
+        }<br>
+        <br>
+        template &lttypename E&gt<br>
+        E Stack&ltE&gt::pop() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;if(is_empty()){<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw StackException("pop","Stack is empty Bozo");<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;} //WHY IS THE USER TRYING TO REMOVE SOMETHING FROM AN EMPTY ARRAY<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;num_elements--;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;return list[++num_elements];<br>
+        }//removes the top element from the stack<br>
+        <br>
+        <br>
+        template class Stack&ltstring&gt ;<br>
+        template class Stack&ltint&gt ;<br>
+            <br>
+            <br>
+            <a href="../stacks/Stacks.html"> Back to Previous page </a>
+        </div>
+    </body>
+</html>

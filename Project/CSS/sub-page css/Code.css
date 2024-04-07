@@ -1,0 +1,11 @@
+body{
+    color: chartreuse;
+    background-color: black;
+    font-size: large;
+}
+.center{
+    text-align: center;
+}
+.space{
+    padding: 50px;
+}
